@@ -29,7 +29,7 @@ def home():
     <!doctype html>
     <title>Planning a shopping trip</title>
     <h1>Search for something new</h1>
-    <form action="/ocr/" method=post enctype=multipart/form-data>
+    <form action="/justdial/" method=post enctype=multipart/form-data>
         <input type=file name=file>
         <input type=text name="What are you looking for?" value=query>
         <input type=submit value=Upload>
