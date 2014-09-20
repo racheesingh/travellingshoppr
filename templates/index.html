@@ -7,24 +7,42 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"/>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeux29-HT1cVnUCZJFykAQTpToAlUktVo&sensor=false"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkKWeOpVGel-r8nGel3lnjE4rWLKol9mA&sensor=false"></script>
         <script type="text/javascript">
             google.maps.event.addDomListener(window, 'load', init);
+	    var directionsDisplay;
+	    var directionsService = new google.maps.DirectionsService();
+	    var map;
+
             function init() {
                 var mapOptions = {
-                    // How zoomed in you want the map to start at (always required)
                     zoom: 11,
-                    // The latitude and longitude to center the map (always required)
-                    center: new google.maps.LatLng(40.6700, -73.9400), // New York
-                    // How you would like to style the map. 
-                    // This is where you would paste any style found on Snazzy Maps.
-                    styles: [   {   stylers:[           {hue:'#ff1a00'},            {invert_lightness:true},            {saturation:-100},          {lightness:33},         {gamma:0.5} ]   },{     featureType:'water',        elementType:'geometry',     stylers:[           {color:'#2D333C'}       ]   }]
+                    center: new google.maps.LatLng(12.9667, 77.5667), // Bangalore
+                    styles: [   {   stylers:[           {hue:'#ff1a00'},            {invert_lightness:true},            {saturation:-100},          {lightness:33},
+                                {gamma:0.5} ]   },{     featureType:'water',        elementType:'geometry',     stylers:[           {color:'#2D333C'}       ]   }]
                 };
-                // Get the HTML DOM element that will contain your map 
-                // We are using a div with id="map" seen below in the <body>
+
                 var mapElement = document.getElementById('map');
                 // Create the Google Map using out element and options defined above
-                var map = new google.maps.Map(mapElement, mapOptions);
+                map = new google.maps.Map(mapElement, mapOptions);
+		directionsDisplay = new google.maps.DirectionsRenderer();
+		directionsDisplay.setMap(map);
+	    }
+	    function calcRoute() {
+	    var request = {
+		    origin: '12.967039,77.595436', // this has to come from code
+		    destination: '12.946370,77.571503', // this has to come from code
+		    waypoints: [ { location:'12.934598405151, 77.613273103027', stopover:true },{ location:'12.932375, 77.623637', stopover:true },{ location:'12.924033, 77.618338', stopover:true },
+		               { location:'12.946370, 77.571503', stopover:true }],
+		    optimizeWaypoints: true,
+		    travelMode: google.maps.TravelMode.DRIVING
+		};
+		directionsService.route(request, function(response, status) {
+		    if (status == google.maps.DirectionsStatus.OK) {
+		        directionsDisplay.setDirections(response);
+   		        var route = response.routes[0];
+		}
+		});
             }
         </script>
     </head>
@@ -33,12 +51,15 @@
             <div class="sidebar pure-u-1 pure-u-md-3-4">
                 <div id="map">
                 </div>
-            </div>
+		</div>
             <div class="content pure-u-1 pure-u-md-1-4">
                 <div class="logo">
                     <img src="{{ url_for('static', filename='images/logo.jpg') }}"/>
                 </div>
                 <div class="todo">
+                <form class="pure-form" action="/justdial/" method=post enctype=multipart/form-data>
+                    <input class="pure-input-1-4" type="text" name="query" placeholder="Looking for?"/ required>
+                    <button type="submit" id="upload" onclick="calcRoute();" class="pure-button pure-button-primary">Add to List</button>
                     TODO
                 </div>
                 <div class="footer">

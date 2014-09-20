@@ -10,8 +10,11 @@ import requests
 from flask import Flask, request, redirect, send_from_directory, url_for, render_template
 
 # Justdial category search API: http://hack2014.justdial.com/search/{otyp}/justdialapicat/{what}/{where}/{city}/{lat}/{lon}/{dist}/{ps}/{np}
-JUSTDIAL_API_CAT_URL = "http://hack2014.justdial.com/search/json/justdialapicat/%s/koramangala/bangalore/13043647/77620617/100km/3/0"
+JUSTDIAL_API_CAT_URL = "http://hack2014.justdial.com/search/json/justdialapicat/%s/koramangala/bangalore/13043647/77620617/100km/1/0"
+
+# Google Directions API call to finf the optimizd route
 GOOGLE_API_KEY = "AIzaSyCkKWeOpVGel-r8nGel3lnjE4rWLKol9mA"
+GOOGLE_DIRECTIONS_API_URL = "https://maps.googleapis.com/maps/api/directions/json?origin=12.967039,77.595436&destination=12.967039,77.595436&waypoints=optimize:true|%s&key=" + GOOGLE_API_KEY
 
 app = Flask(__name__)
 app.debug = True
@@ -33,6 +36,20 @@ def justdialSearch():
             shoppingDetail[ query ] = { "name" : item[ "name" ], "address": item[ "address" ],
                                        "lat": lat, "long":long }
     print shoppingDetail
+    print getOptimizedRoute()
+
+def getOptimizedRoute():
+    waypoints = ""
+    orderedItemList = []
+    itinerary = []
+    for key, value in shoppingDetail.iteritems():
+        orderedItemList.append( key )
+        waypoints += str( value[ "lat" ] ) + ',' + str( value[ "long" ] )+ '|'
+    url = GOOGLE_DIRECTIONS_API_URL % waypoints
+    optimizedRoute = json.loads( requests.get( url ).content )[ "routes" ][0][ "waypoint_order" ]
+    for stop in optimizedRoute:
+        itinerary += [ shoppingDetail[ orderedItemList[ stop ] ] ]
+    return itinerary
 
 @app.route('/itinerary/')
 def leaders():
