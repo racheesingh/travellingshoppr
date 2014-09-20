@@ -5,18 +5,26 @@ import tempfile
 import subprocess
 import re
 import sys
+import requests
 
 from flask import Flask, request, redirect, send_from_directory, url_for, render_template
 
-CWD = os.getcwd()
-UPLOAD_DIR = CWD + "/uploads/"
+# Justdial category search API: http://hack2014.justdial.com/search/{otyp}/justdialapicat/{what}/{where}/{city}/{lat}/{lon}/{dist}/{ps}/{np}
+JUSTDIAL_API_CAT_URL = "http://hack2014.justdial.com/search/json/justdialapicat/%s/koramangala/bangalore/13043647/77620617/100km/3/0"
+GOOGLE_API_KEY = "AIzaSyCkKWeOpVGel-r8nGel3lnjE4rWLKol9mA"
 
 app = Flask(__name__)
 app.debug = True
 
+# This is the to-do list shopping items
+shoppingItems = [ "jewelry", "lenovo laptop", "groceries", "books" ]
+
 @app.route('/justdial/', methods=['POST'])
 def justdialSearch():
-    return redirect(url_for('itinerary'))
+    query = request.form['query']
+    query = "%20".join( query.split(' ') )
+    print requests.get( JUSTDIAL_API_CAT_URL % query ).content
+    #return redirect(url_for('itinerary') )
 
 @app.route('/itinerary/')
 def leaders():
