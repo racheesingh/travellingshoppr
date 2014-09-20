@@ -17,14 +17,22 @@ app = Flask(__name__)
 app.debug = True
 
 # This is the to-do list shopping items
-shoppingItems = [ "jewelry", "lenovo laptop", "groceries", "books" ]
+shoppingItems = [ "books", "lenovo laptop", "groceries", "jewelry" ]
 
+# { "jewelry": [{"name":<value>, "address":<value>, "latitude":<value>, "longitude":<value>}, {}, {} ], .. }
+shoppingDetail = {}
 @app.route('/justdial/', methods=['POST'])
 def justdialSearch():
-    query = request.form['query']
-    query = "%20".join( query.split(' ') )
-    print requests.get( JUSTDIAL_API_CAT_URL % query ).content
-    #return redirect(url_for('itinerary') )
+    #query = request.form['query']
+    for query in shoppingItems:
+        queryEscaped = "%20".join( query.split(' ') )
+        data = json.loads( requests.get( JUSTDIAL_API_CAT_URL % queryEscaped ).content )[ "results" ]
+        for item in data:
+            geocodes = item[ "companyGeocodes" ]
+            [ lat, long ] = geocodes.split( ',' )
+            shoppingDetail[ query ] = { "name" : item[ "name" ], "address": item[ "address" ],
+                                       "lat": lat, "long":long }
+    print shoppingDetail
 
 @app.route('/itinerary/')
 def leaders():
