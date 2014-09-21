@@ -7,6 +7,11 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/grids-responsive-min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"/>
+
+	<link rel="stylesheet" href="{{ url_for( 'static', filename='css/reset.css' ) }}"> <!-- CSS reset -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> <!-- Resource style -->
+	<script src="{{ url_for( 'static', filename='js/modernizr.js') }}"></script> <!-- Modernizr -->
+
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkKWeOpVGel-r8nGel3lnjE4rWLKol9mA&sensor=false"></script>
         <script type="text/javascript">
             google.maps.event.addDomListener(window, 'load', init);
@@ -29,6 +34,7 @@
 		directionsDisplay.setMap(map);
 	    }
 	    function calcRoute() {
+	    document.getElementById('cd-timeline').style.display = "block";
 	    var request = {
 		    origin: '12.967039,77.595436', // this has to come from code
 		    destination: '12.946370,77.571503', // this has to come from code
@@ -56,27 +62,86 @@
                 <div class="logo">
                     <img src="{{ url_for('static', filename='images/logo.jpg') }}"/>
                 </div>
+		</br>
                 <div class="todo">
                 <form class="pure-form" action="" method=post enctype=multipart/form-data>
                     <input class="pure-input-3-4" type="text" name="query" placeholder="Looking for?"/ required>
 		    <input type=submit class="pure-input-1-4" value=Add>
 		</form>
+		<br>
 		  <ul>
 		    {% for task in tasks %}
 		    <li>&#x25a2;&nbsp;&nbsp;&nbsp;{{ task }}</li>
+		    <br>
 		    {% endfor %}
 		  </ul>
 		</div>
-                  <form class="pure-form" action="/justdial/" method=post enctype=multipart/form-data>
+                  <!--<form class="pure-form" action="/justdial/" method=post enctype=multipart/form-data>-->
+		  <form class="pure-form" action="javascript:void(); return false;" method=post enctype=multipart/form-data>
 		    <button id="button" type="submit" id="upload" onclick="calcRoute();" class="pure-input-1-1 pure-button pure-button-primary">Generate Plan</button>
 
-                <div class="footer">
-                    <p>Powered by <a href="http://www.justdial.com/">Justdial</a> and <a href="http://www.olacabs.com/">OlaCabs</a></p>
+	<section id="cd-timeline" style="display:none;" class="cd-container">
+		<div class="cd-timeline-block">
+			<div class="cd-timeline-img cd-picture">
+				<img src="{{ url_for('static', filename='images/cd-icon-picture.svg') }}" alt="Picture">
+			</div> <!-- cd-timeline-img -->
+
+			<div class="cd-timeline-content">
+				<h2>Home</h2>
+				<p>Home to Sapna Book Store.</p>
+				<a href="http://olacabs.com" class="cd-read-more">Book Ola!</a>
+			</div> <!-- cd-timeline-content -->
+		</div> <!-- cd-timeline-block -->
+		<div class="cd-timeline-block">
+			<div class="cd-timeline-img cd-movie">
+				<img src="{{url_for( 'static', filename='images/cd-icon-movie.svg' )}}" alt="Movie">
+			</div> <!-- cd-timeline-img -->
+
+			<div class="cd-timeline-content">
+				<h2>Sapna Book Store</h2>
+				<p>Sapna Book Store to Village Hyper Market?</p>
+				<a href="http://olacabs.com" class="cd-read-more">Book Ola!</a>
+				<span class="cd-date">Shop Books</span>
+			</div> <!-- cd-timeline-content -->
+		</div> <!-- cd-timeline-block -->
+		<div class="cd-timeline-block">
+			<div class="cd-timeline-img cd-picture">
+				<img src="{{ url_for('static', filename='images/cd-icon-picture.svg')}}" alt="Picture">
+			</div> <!-- cd-timeline-img -->
+
+			<div class="cd-timeline-content">
+				<h2>Village Hyper Market</h2>
+				<p> Village Hyper Market to Shubh Jewellers</p>
+				<a href="http://olacabs.com" class="cd-read-more">Book Ola!</a>
+				<span class="cd-date">Shop Groceries</span>
+			</div> <!-- cd-timeline-content -->
+		</div> <!-- cd-timeline-block -->
+
+		<div class="cd-timeline-block">
+			<div class="cd-timeline-img cd-location">
+				<img src="{{ url_for('static', filename='images/cd-icon-location.svg')}}" alt="Location">
+			</div> <!-- cd-timeline-img -->
+
+			<div class="cd-timeline-content">
+				<h2>Shubh Jewellers</h2>
+				<p>Where to next?</p>
+				<a href="http://olacabs.com" class="cd-read-more">Book Ola!</a>
+				<span class="cd-date">Shop Jewellery</span>
+			</div> <!-- cd-timeline-content -->
+		</div> <!-- cd-timeline-block -->
+
+
+	</section>
+        <div class="footer">
+          <!--<p>Powered by <a href="http://www.justdial.com/">Justdial</a> and <a href="http://www.olacabs.com/">OlaCabs</a></p>
                     <div class="credits">
                         <p>Built with ❤ at <a href="https://www.sequoiahack.com/">Sequoia::Hack</a><br/><a href="https://github.com/racheesingh">@racheesingh</a> and <a href="https://github.com/emaadmanzoor">@emaadmanzoor</a></p>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="{{ url_for('static', filename='js/main.js') }}"></script> <!-- Resource jQuery -->
+
     </body>
 </html>
