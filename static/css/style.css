@@ -520,7 +520,7 @@ a:visited {
     height: 15em; /* FIXME: Hardcoded */
 }
 
-.todo {
+.todo ul {
     list-style-type: none;
     padding: 0;
 }
@@ -533,20 +533,18 @@ a:visited {
 }
 
 button#button {
-    width: 83%;
+    width: 100%;
 }
 
 @media (min-width: 48em) {
     .content {
-        padding: 1em 2em
+        padding: 1em 2em;
         margin-left: 75%;
     }
 
     .footer {
-        bottom: 0;
-        padding: 2em 20% 2em 0;
-        position: fixed;
-        width: 20%;
+        padding: 1em 0;
+        width: 100%;
     }
 
     .logo img {
