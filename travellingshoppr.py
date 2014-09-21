@@ -51,10 +51,6 @@ def getOptimizedRoute():
         itinerary += [ shoppingDetail[ orderedItemList[ stop ] ] ]
     return itinerary
 
-@app.route('/itinerary/')
-def leaders():
-    return render_template('leaders.html', leaders=leaders)
-
 @app.route('/', methods=['GET', 'POST'])
 def home():
     """
@@ -69,8 +65,17 @@ def home():
     </form>
     '''
     """
-    return render_template('index.html')
+    if request.method == "POST":
+        name = request.form['query']
+        if not name:
+            flash("Oops you forgot to set a task name.")
+            return redirect(url_for('list'))
+        task = request.form['query']
+        tasks.append( task )
 
+    return render_template('index.html', tasks=tasks)
+
+tasks = []
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)

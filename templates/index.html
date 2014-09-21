@@ -57,11 +57,23 @@
                     <img src="{{ url_for('static', filename='images/logo.jpg') }}"/>
                 </div>
                 <div class="todo">
-                <form class="pure-form" action="/justdial/" method=post enctype=multipart/form-data>
+                <form class="pure-form" action="" method=post enctype=multipart/form-data>
                     <input class="pure-input-1-4" type="text" name="query" placeholder="Looking for?"/ required>
-                    <button type="submit" id="upload" onclick="calcRoute();" class="pure-button pure-button-primary">Add to List</button>
-                    TODO
+		    <input type=submit value=Add>
+		</form>
                 </div>
+		<div>
+		  <ul>
+		    {% for task in tasks %}
+		    <li>{{ task }}</li>
+		    {% endfor %}
+		  </ul>
+		</div>
+		<div>
+                  <form class="pure-form" action="/justdial/" method=post enctype=multipart/form-data>
+		    <button type="submit" id="upload" onclick="calcRoute();" class="pure-button pure-button-primary">Generate Plan</button>
+		  </div>
+
                 <div class="footer">
                     <p>Powered by <a href="http://www.justdial.com/">Justdial</a> and <a href="http://www.olacabs.com/">OlaCabs</a></p>
                     <div class="credits">
