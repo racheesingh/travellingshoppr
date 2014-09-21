@@ -40,13 +40,25 @@ a:visited {
     height: 15em; /* FIXME: Hardcoded */
 }
 
-.todo {
-    tex
+.todo ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.todo ul li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    text-transform: uppercase;
+    font-size: 0.8em;
+}
+
+button#button {
+    width: 83%;
 }
 
 @media (min-width: 48em) {
     .content {
-        padding: 1em 2em 0;
+        padding: 1em 2em;
         margin-left: 75%;
     }
 
